@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Random Product</title>
+<style>
+:root{--paper:#f6f3e4;--grid:rgba(0,0,0,.06);--card:#fffdf6;--ink:#14163a;--pink:#f06fa8;--pink-d:#d9488a;--yel:#f7d774;--yel-d:#e2bd55;--line:#3b3b3b;--muted:#555;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#1c1a2e;--grid:rgba(255,255,255,.06);--card:#2a2745;--ink:#fff7d6;--line:#fff7d6;--muted:#bbb}}
+:root[data-theme="dark"]{--paper:#1c1a2e;--grid:rgba(255,255,255,.06);--card:#2a2745;--ink:#fff7d6;--line:#fff7d6;--muted:#bbb}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;color:var(--ink);background-color:var(--paper);
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;
+display:flex;align-items:center;justify-content:center;padding:16px}
+.wrap{width:100%;max-width:980px;text-align:center}
+.cards{display:flex;gap:clamp(14px,3vw,32px);justify-content:center}
+.card{position:relative;flex:1;min-width:0;background:var(--card);border:6px solid var(--pink);border-radius:26px;box-shadow:0 14px 0 var(--pink-d);
+min-height:clamp(190px,34vh,300px);display:flex;align-items:center;justify-content:center;padding:44px 14px 18px;overflow:hidden}
+.dots{position:absolute;top:14px;left:18px;display:flex;gap:8px}
+.dots i{width:14px;height:14px;border-radius:50%;display:block}
+.dots i:nth-child(1){background:#f7c92b}.dots i:nth-child(2){background:#f06fa8}.dots i:nth-child(3){background:#19b394}
+.txt{font-size:clamp(1.7rem,6.2vw,4rem);font-weight:900;line-height:1.1;word-break:break-word;color:var(--ink);letter-spacing:.5px}
+.pic{font-size:clamp(4rem,17vw,9rem);line-height:1}
+.pic svg{width:clamp(120px,26vw,240px);height:auto;filter:drop-shadow(0 8px 6px rgba(0,0,0,.28))}
+.hint{opacity:.45;font-size:clamp(1.3rem,4vw,2.2rem)}
+.lbl{position:absolute;top:12px;right:18px;font-size:.75rem;font-weight:800;letter-spacing:2px;color:var(--muted)}
+.scan{position:absolute;left:0;right:0;top:-10%;height:6px;background:linear-gradient(90deg,transparent,#f06fa8,#f7d774,#3ba7ff,transparent);opacity:0;pointer-events:none}
+.scanning .scan{opacity:1;animation:sweep .7s linear infinite}
+.scanning .txt,.scanning .pic{animation:glitch .18s steps(2) infinite}
+@keyframes sweep{to{top:110%}}
+@keyframes glitch{0%{transform:translateX(-3px)}100%{transform:translateX(3px)}}
+.pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.3) rotate(-8deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+button{margin-top:40px;font:inherit;font-size:clamp(1.1rem,4vw,1.7rem);font-weight:900;letter-spacing:2px;color:var(--line);background:var(--yel);border:4px solid var(--line);border-radius:999px;padding:16px 56px;cursor:pointer;box-shadow:0 9px 0 var(--yel-d);transition:transform .08s,box-shadow .08s}
+button:hover{transform:translateY(-2px)}
+button:active{transform:translateY(7px);box-shadow:0 2px 0 var(--yel-d)}
+button:disabled{cursor:wait}
+button:focus-visible{outline:4px solid var(--pink);outline-offset:4px}
+.status{margin-top:26px;font-size:.72rem;font-weight:800;letter-spacing:1.5px;color:var(--muted);display:flex;gap:28px;justify-content:center}
+.status b{display:inline-block;width:8px;height:8px;border-radius:50%;background:#9ccc3c;margin-right:6px}
+.m2{margin-top:34px}
+.mcard{min-height:0;padding:44px 18px 22px;flex-direction:column;gap:8px}
+.mname{font-size:clamp(1.4rem,5vw,2.4rem);font-weight:900;color:var(--ink)}
+.mdesc{font-size:clamp(1rem,3vw,1.4rem);font-weight:700;color:var(--ink)}
+.mtask{font-size:clamp(.85rem,2.6vw,1.1rem);color:var(--muted);font-weight:700}
+.brow{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+button.alt{margin-top:26px;background:var(--pink);color:#fff;border-color:var(--pink-d);box-shadow:0 9px 0 var(--pink-d);padding:14px 40px}
+button.alt:active{box-shadow:0 2px 0 var(--pink-d)}
+#tbtn{margin-top:40px}
+.mtask{text-align:left;line-height:1.5;color:var(--ink)!important;font-size:clamp(1rem,3vw,1.3rem)!important}
+.bubble{background:#fff3c4;color:#14163a;border:3px solid var(--yel-d);border-radius:18px;padding:10px 14px;font-weight:800;font-size:clamp(1rem,3.2vw,1.4rem)}
+.mtime{font-size:clamp(1.6rem,6vw,2.6rem);font-weight:900;color:var(--pink-d)}
+html,body{height:auto;min-height:100%}
+body{align-items:flex-start;justify-content:center}
+.wrap{margin:auto}
+.lang{text-align:right;margin-bottom:12px}
+button.lg{margin:0 0 0 8px;padding:6px 18px;font-size:.95rem;letter-spacing:1px;border-width:3px;box-shadow:0 4px 0 var(--yel-d);background:var(--card);color:var(--ink);border-color:var(--line)}
+button.lg.on{background:var(--pink);color:#fff;border-color:var(--pink-d);box-shadow:0 4px 0 var(--pink-d)}
+button.lg:active{transform:translateY(3px);box-shadow:0 1px 0 var(--yel-d)}
+@media (max-width:520px){.card{padding:40px 8px 14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="lang"><button id="lu" type="button" class="lg">UZ</button><button id="le" type="button" class="lg on">ENG</button></div>
+  <div class="cards" id="cards">
+    <div class="card"><div class="dots"><i></i><i></i><i></i></div><div class="lbl">PRODUCT</div><div class="scan"></div><div class="txt hint" id="name">Press the button!</div></div>
+    <div class="card"><div class="dots"><i></i><i></i><i></i></div><div class="lbl">PICTURE</div><div class="scan"></div><div class="pic hint" id="pic">?</div></div>
+  </div>
+  <div class="brow"><button id="btn" type="button">RANDOM PRODUCT</button></div>
+  <div class="m2">
+  <div class="card mcard"><div class="dots"><i></i><i></i><i></i></div><div class="lbl">PR MODEL</div><div id="mod" class="txt hint">?</div></div>
+  <div class="brow"><button id="mbtn" type="button" class="alt">PR MODEL</button><button id="cbtn" type="button" class="alt" style="display:none;background:var(--yel);color:var(--line);border-color:var(--line);box-shadow:0 9px 0 var(--yel-d)">CUSTOMER QUESTION</button></div>
+</div>
+<div class="status"><span><b></b>PRODUCTS: 35</span><span id="st">STATUS: READY</span></div>
+</div>
+<script>
+const G={gK:["#4b5563","#0b0d12"],gM:["#f3f4f6","#8f98a6"],gR:["#ff6b6b","#b71c1c"],gB:["#6ec1ff","#1d5fa8"],gY:["#ffe27a","#d49a00"],gW:["#ffffff","#d6d6d6"],gP:["#ffb3d1","#e0467f"],gBr:["#b9794a","#5e3716"],gT:["#7ee8d8","#119c8a"],gO:["#ffb25c","#e0630f"]};
+document.body.insertAdjacentHTML("afterbegin",`<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>${Object.entries(G).map(([k,[a,b]])=>`<linearGradient id="${k}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>`).join("")}</defs></svg>`);
+const kb=(()=>{let s='<rect x="5" y="28" width="90" height="46" rx="6" fill="url(#gK)" stroke="#111"/>';for(let r=0;r<3;r++)for(let c=0;c<10;c++)s+=`<rect x="${10+c*7.8+r*2}" y="${34+r*9}" width="6.6" height="7" rx="1.5" fill="#e5e7eb"/>`;return s+'<rect x="26" y="61" width="48" height="7" rx="1.5" fill="#e5e7eb"/>'})();
+const calc=(()=>{let s='<rect x="22" y="6" width="56" height="88" rx="9" fill="url(#gK)"/><rect x="29" y="13" width="42" height="18" rx="3" fill="#b9e5b0"/><text x="67" y="27" font-size="12" font-family="monospace" text-anchor="end" fill="#1e3a1e">3.14</text>';for(let r=0;r<4;r++)for(let c=0;c<4;c++)s+=`<rect x="${29+c*10.5}" y="${38+r*13}" width="9" height="10" rx="2" fill="${c==3?"#ff9f1c":"#d1d5db"}"/>`;return s})();
+const rings=[16,28,40,52,64,76].map(y=>`<rect x="14" y="${y}" width="14" height="6" rx="3" fill="#ddd" stroke="#888"/>`).join("");
+const tk=Array.from({length:19},(_,i)=>`<path d="M${10+i*4.5} 36v${i%5==0?12:7}" stroke="#5a4300" stroke-width="1.2"/>`).join("");
+const IC={
+"Sunglasses":'<path d="M8 38h84" stroke="#222" stroke-width="5" stroke-linecap="round"/><path d="M12 40h34c0 18-8 28-18 28S12 56 12 40zM54 40h34c0 18-8 28-18 28S54 56 54 40z" fill="url(#gK)" stroke="#111" stroke-width="3"/><path d="M20 46q6-4 14-2M62 46q6-4 14-2" stroke="#fff" stroke-opacity=".6" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M46 42q4-4 8 0" stroke="#222" stroke-width="3" fill="none"/>',
+"Backpack":'<path d="M38 20q12-14 24 0" stroke="#7a1a1a" stroke-width="5" fill="none"/><rect x="22" y="20" width="56" height="70" rx="22" fill="url(#gR)"/><rect x="32" y="56" width="36" height="26" rx="9" fill="#b32424" stroke="#7a1a1a" stroke-width="2"/><path d="M32 66h36" stroke="#e8e8e8" stroke-width="2" stroke-dasharray="3 2"/><path d="M50 30v18" stroke="#ddd" stroke-width="3" stroke-linecap="round"/><path d="M30 28q-4 20 0 34M70 28q4 20 0 34" stroke="#7a1a1a" stroke-width="3" fill="none"/>',
+"Wallet":'<rect x="22" y="22" width="40" height="14" rx="3" fill="#e8d9a8" transform="rotate(-6 42 29)"/><rect x="12" y="28" width="76" height="52" rx="9" fill="url(#gBr)"/><path d="M12 40h76" stroke="#4a2c12" stroke-width="2"/><rect x="62" y="50" width="26" height="20" rx="6" fill="#8a5a2e" stroke="#4a2c12" stroke-width="2"/><circle cx="72" cy="60" r="4" fill="url(#gY)"/><path d="M16 74h46" stroke="#e8c27a" stroke-width="1.5" stroke-dasharray="3 2"/>',
+"Perfume":'<rect x="42" y="10" width="16" height="14" rx="3" fill="url(#gY)"/><rect x="46" y="22" width="8" height="8" fill="#ccc"/><rect x="22" y="30" width="56" height="58" rx="12" fill="url(#gP)" stroke="#c0457a" stroke-width="2"/><rect x="32" y="50" width="36" height="22" rx="4" fill="#fff" fill-opacity=".75"/><path d="M38 61h24" stroke="#c0457a" stroke-width="3" stroke-linecap="round"/><path d="M29 40v38" stroke="#fff" stroke-opacity=".7" stroke-width="4" stroke-linecap="round"/>',
+"Watch":'<rect x="35" y="4" width="30" height="34" rx="6" fill="#2b2f3a"/><rect x="35" y="62" width="30" height="34" rx="6" fill="#2b2f3a"/><circle cx="50" cy="50" r="26" fill="url(#gM)" stroke="#6b7280" stroke-width="2"/><circle cx="50" cy="50" r="20" fill="#f8f8f2" stroke="#333" stroke-width="2"/><path d="M50 50V36M50 50l10 6" stroke="#222" stroke-width="3" stroke-linecap="round"/><circle cx="50" cy="50" r="2.5" fill="#c0392b"/><path d="M50 32v3M50 65v3M32 50h3M65 50h3" stroke="#555" stroke-width="2"/><rect x="76" y="46" width="6" height="8" rx="2" fill="#9aa1ac"/>',
+"Headphones":'<path d="M20 58V48a30 30 0 0160 0v10" stroke="url(#gK)" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="12" y="52" width="20" height="34" rx="9" fill="url(#gB)"/><rect x="68" y="52" width="20" height="34" rx="9" fill="url(#gB)"/><rect x="18" y="58" width="8" height="22" rx="4" fill="#1b2a6b"/><rect x="74" y="58" width="8" height="22" rx="4" fill="#1b2a6b"/>',
+"Umbrella":'<path d="M8 50C8 26 28 12 50 12s42 14 42 38c-7-6-14-6-21 0-7-6-14-6-21 0-7-6-14-6-21 0-7-6-14-6-21 0z" fill="url(#gR)"/><path d="M50 12v38M50 50C40 40 34 28 34 16M50 50c10-10 16-22 16-34" stroke="#7a1a1a" stroke-opacity=".5" stroke-width="2" fill="none"/><path d="M50 50v34q0 8-8 8t-8-8" stroke="#5a3a1a" stroke-width="5" fill="none" stroke-linecap="round"/>',
+"Water Bottle":'<rect x="40" y="6" width="20" height="12" rx="3" fill="#1f2937"/><path d="M42 18h16l8 14v54q0 6-6 6H40q-6 0-6-6V32z" fill="url(#gB)" fill-opacity=".85" stroke="#2a6fb0" stroke-width="2"/><rect x="34" y="46" width="32" height="22" fill="#fff" fill-opacity=".85"/><path d="M40 57h20" stroke="#2a6fb0" stroke-width="4" stroke-linecap="round"/><path d="M39 36v44" stroke="#fff" stroke-opacity=".7" stroke-width="4" stroke-linecap="round"/>',
+"Flashlight":'<path d="M90 24L100 10v60L90 56z" fill="#fff59a" fill-opacity=".6"/><rect x="6" y="31" width="56" height="18" rx="6" fill="url(#gK)"/><path d="M14 33v14M20 33v14M26 33v14" stroke="#6b7280" stroke-width="2"/><path d="M62 30h18l8-8v36l-8-8H62z" fill="url(#gM)"/><ellipse cx="88" cy="40" rx="2.5" ry="17" fill="#fff59a"/><rect x="38" y="26" width="12" height="6" rx="3" fill="url(#gY)"/>',
+"Power Bank":'<rect x="26" y="8" width="48" height="84" rx="10" fill="url(#gM)" stroke="#555" stroke-width="2"/><rect x="32" y="16" width="36" height="46" rx="5" fill="#1f2937"/><path d="M52 24l-8 14h8l-4 16 10-18h-8z" fill="url(#gY)"/><circle cx="38" cy="74" r="2.5" fill="#3ddc84"/><circle cx="46" cy="74" r="2.5" fill="#3ddc84"/><circle cx="54" cy="74" r="2.5" fill="#3ddc84"/><circle cx="62" cy="74" r="2.5" fill="#666"/><rect x="42" y="84" width="16" height="4" rx="1" fill="#222"/>',
+"Calculator":calc,
+"Notebook":'<rect x="22" y="8" width="62" height="84" rx="6" fill="url(#gB)"/><rect x="34" y="26" width="38" height="22" rx="3" fill="#fff"/><path d="M40 34h26M40 41h18" stroke="#3a6ea5" stroke-width="3" stroke-linecap="round"/>'+rings,
+"Thermos":'<rect x="34" y="6" width="32" height="14" rx="5" fill="url(#gR)"/><rect x="28" y="18" width="44" height="74" rx="10" fill="url(#gM)" stroke="#6b7280" stroke-width="2"/><rect x="28" y="60" width="44" height="10" fill="url(#gR)"/><path d="M36 26v30" stroke="#fff" stroke-opacity=".8" stroke-width="5" stroke-linecap="round"/>',
+"Keychain":'<circle cx="50" cy="22" r="14" fill="none" stroke="url(#gM)" stroke-width="4"/><path d="M50 36v10" stroke="#999" stroke-width="3" stroke-dasharray="4 2"/><rect x="47" y="66" width="6" height="28" fill="url(#gY)" stroke="#b8860b"/><rect x="53" y="82" width="8" height="4" fill="#e6b800"/><rect x="53" y="89" width="6" height="4" fill="#e6b800"/><circle cx="50" cy="58" r="12" fill="url(#gY)" stroke="#b8860b" stroke-width="2"/><circle cx="50" cy="55" r="4" fill="#fff" fill-opacity=".85"/>',
+"Hand Cream":'<path d="M30 10h40l6 62H24z" fill="url(#gW)" stroke="#bbb" stroke-width="2"/><path d="M30 10h40v6H30z" fill="#ddd"/><rect x="34" y="72" width="32" height="20" rx="4" fill="url(#gP)"/><ellipse cx="50" cy="44" rx="15" ry="11" fill="url(#gP)"/><path d="M44 44q6-8 12 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>',
+"Hair Dryer":'<path d="M34 52l-6 38q-1 4 4 4h10q5 0 5-4l2-38z" fill="url(#gK)"/><rect x="10" y="20" width="62" height="34" rx="16" fill="url(#gP)"/><rect x="68" y="24" width="18" height="26" rx="4" fill="url(#gM)"/><path d="M90 30h6M90 37h8M90 44h6" stroke="#8ab4d8" stroke-width="2.5" stroke-linecap="round"/><rect x="20" y="28" width="26" height="4" rx="2" fill="#fff" fill-opacity=".6"/>',
+"Electric Toothbrush":'<rect x="42" y="30" width="16" height="62" rx="8" fill="url(#gT)"/><rect x="46" y="44" width="8" height="8" rx="4" fill="#fff"/><path d="M46 30V18h8v12z" fill="#eee"/><rect x="40" y="4" width="20" height="16" rx="6" fill="#f4f4f4" stroke="#bbb" stroke-width="1.5"/><path d="M44 8h12M44 12h12M44 16h12" stroke="#2a8fd6" stroke-width="2.5" stroke-linecap="round"/>',
+"Camera":'<rect x="8" y="30" width="84" height="56" rx="10" fill="url(#gK)"/><path d="M30 30l5-10h30l5 10z" fill="url(#gM)"/><rect x="14" y="36" width="20" height="8" rx="2" fill="url(#gM)"/><circle cx="50" cy="58" r="22" fill="url(#gM)"/><circle cx="50" cy="58" r="16" fill="#111"/><circle cx="50" cy="58" r="10" fill="url(#gB)"/><circle cx="45" cy="53" r="3" fill="#fff" fill-opacity=".8"/><circle cx="82" cy="40" r="3" fill="#e63946"/>',
+"Speaker":'<rect x="24" y="6" width="52" height="88" rx="9" fill="url(#gK)"/><circle cx="50" cy="28" r="12" fill="#222" stroke="#666" stroke-width="2"/><circle cx="50" cy="28" r="5" fill="#555"/><circle cx="50" cy="66" r="20" fill="#222" stroke="#666" stroke-width="3"/><circle cx="50" cy="66" r="12" fill="#333" stroke="#777"/><circle cx="50" cy="66" r="5" fill="#888"/><circle cx="66" cy="12" r="2" fill="#3ddc84"/>',
+"Keyboard":kb,
+"Mouse":'<path d="M50 2v14" stroke="#555" stroke-width="3"/><path d="M26 40q0-24 24-24t24 24v26q0 26-24 26t-24-26z" fill="url(#gM)" stroke="#6b7280" stroke-width="2"/><path d="M50 16v34M26 50h48" stroke="#6b7280" stroke-width="2"/><rect x="46" y="24" width="8" height="16" rx="4" fill="url(#gK)"/><path d="M32 30q4-10 12-12" stroke="#fff" stroke-opacity=".7" stroke-width="3" fill="none" stroke-linecap="round"/>',
+"Cap":'<path d="M20 64Q20 24 54 24T88 64z" fill="url(#gB)"/><path d="M8 66q40-6 82 0 6 8-14 10-34 2-68-10z" fill="#1d3f7a"/><circle cx="54" cy="24" r="4" fill="#1d3f7a"/><path d="M54 24Q44 44 46 64M54 24Q66 44 64 64" stroke="#fff" stroke-opacity=".35" stroke-width="1.5" fill="none"/>',
+"Sneakers":'<path d="M8 66V40q0-6 6-6h14l8 10h18q22 2 36 16v12q0 4-4 4H12q-4 0-4-4z" fill="url(#gR)"/><path d="M6 72h90q0 10-8 10H14q-8 0-8-10z" fill="#f4f4f4" stroke="#bbb" stroke-width="1.5"/><path d="M34 46l8 6M40 40l8 6M46 46l8 6" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M20 62q20-2 40-14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>',
+"Mug":'<path d="M72 36h8q12 0 12 14t-12 14h-8" stroke="#c2570c" stroke-width="7" fill="none"/><path d="M20 30h58v44q0 16-16 16H36q-16 0-16-16z" fill="url(#gO)"/><ellipse cx="49" cy="30" rx="29" ry="6" fill="#5a2d0c"/><path d="M28 40v36" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/><path d="M38 20q-6-6 0-12M52 20q-6-6 0-12M64 20q-6-6 0-12" stroke="#bbb" stroke-width="3" fill="none" stroke-linecap="round"/>',
+"Pen":'<g transform="rotate(45 50 50)"><rect x="43" y="6" width="14" height="70" rx="5" fill="url(#gB)"/><rect x="43" y="14" width="14" height="8" fill="url(#gM)"/><path d="M43 76h14l-7 18z" fill="url(#gM)"/><rect x="58" y="10" width="3" height="30" rx="1.5" fill="#1d3f7a"/><path d="M46 28v40" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/></g>',
+"Smartphone":'<rect x="30" y="6" width="40" height="88" rx="8" fill="url(#gK)"/><rect x="34" y="14" width="32" height="68" rx="3" fill="url(#gB)"/><circle cx="50" cy="88" r="3" fill="#777"/><rect x="44" y="9" width="12" height="2.5" rx="1.2" fill="#333"/><path d="M38 22l14 20" stroke="#fff" stroke-opacity=".35" stroke-width="5"/>',
+"Laptop":'<rect x="18" y="16" width="64" height="44" rx="4" fill="url(#gK)"/><rect x="22" y="20" width="56" height="36" rx="2" fill="url(#gB)"/><path d="M6 64h88l-6 12H12z" fill="url(#gM)" stroke="#8f98a6"/><rect x="40" y="66" width="20" height="3" rx="1.5" fill="#9ca3af"/>',
+"Light Bulb":'<path d="M50 8a26 26 0 0 0-14 48v10h28V56A26 26 0 0 0 50 8z" fill="url(#gY)" stroke="#d49a00" stroke-width="2"/><rect x="36" y="68" width="28" height="8" rx="2" fill="url(#gM)"/><rect x="38" y="78" width="24" height="8" rx="2" fill="url(#gM)"/><path d="M44 86h12l-2 6h-8z" fill="#555"/><path d="M42 58l4-14 4 8 4-8 4 14" stroke="#b36b00" stroke-width="2" fill="none"/><path d="M36 24q4-8 12-10" stroke="#fff" stroke-opacity=".8" stroke-width="4" fill="none" stroke-linecap="round"/>',
+"Scissors":'<path d="M50 50L36 6l8-2 10 46z" fill="url(#gM)" stroke="#6b7280"/><path d="M50 50L64 6l-8-2-10 46z" fill="url(#gM)" stroke="#6b7280"/><path d="M50 50L40 62M50 50L60 62" stroke="#6b7280" stroke-width="5"/><circle cx="36" cy="76" r="14" fill="none" stroke="url(#gR)" stroke-width="7"/><circle cx="64" cy="76" r="14" fill="none" stroke="url(#gR)" stroke-width="7"/><circle cx="50" cy="50" r="3" fill="#444"/>',
+"Ruler":'<g transform="rotate(-35 50 50)"><rect x="4" y="36" width="92" height="28" rx="3" fill="url(#gY)" stroke="#b8860b"/>'+tk+'</g>',
+"Alarm Clock":'<circle cx="26" cy="22" r="11" fill="url(#gR)"/><circle cx="74" cy="22" r="11" fill="url(#gR)"/><path d="M30 86l-6 8M70 86l6 8" stroke="#555" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="54" r="34" fill="url(#gR)" stroke="#8c1a1a" stroke-width="2"/><circle cx="50" cy="54" r="26" fill="#fffdf2"/><path d="M50 54V36M50 54l12 8" stroke="#222" stroke-width="3.5" stroke-linecap="round"/><circle cx="50" cy="54" r="3" fill="#c0392b"/><path d="M50 32v4M50 72v4M28 54h4M68 54h4" stroke="#555" stroke-width="2"/>',
+"Soccer Ball":'<circle cx="50" cy="50" r="40" fill="url(#gW)" stroke="#444" stroke-width="2"/><path d="M50 34l14 10-5 16H41l-5-16z" fill="#222"/><path d="M50 34V12M64 44l22-8M59 60l12 18M41 60L29 78M36 44l-22-8" stroke="#444" stroke-width="2"/><path d="M80 42l6 10-6 10-5-10zM20 42l-6 10 6 10 5-10zM38 82l12 8 12-8-4-8H42z" fill="#222" fill-opacity=".85"/>',
+"Desk Lamp":'<ellipse cx="34" cy="90" rx="22" ry="5" fill="url(#gK)"/><path d="M34 88L48 46L62 34" stroke="url(#gM)" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 40l26 10 12 40-28-14z" fill="#fff59a" fill-opacity=".4"/><path d="M50 24l32 12-8 16-32-12z" fill="url(#gT)"/><circle cx="48" cy="46" r="3.5" fill="#555"/>',
+"Teapot":'<path d="M24 46q-16 0-14 16t16 14" stroke="#0d7a6c" stroke-width="6" fill="none"/><path d="M78 50q14-2 16-18l-6-2q-2 10-12 12z" fill="url(#gT)"/><path d="M24 46q0-18 28-18t28 18v14q0 24-28 24t-28-24z" fill="url(#gT)"/><path d="M36 28q16-16 32 0z" fill="#0d7a6c"/><circle cx="52" cy="14" r="4" fill="#0d7a6c"/><path d="M32 46v14" stroke="#fff" stroke-opacity=".6" stroke-width="4" stroke-linecap="round"/>',
+"Pencil":'<g transform="rotate(45 50 50)"><rect x="43" y="6" width="14" height="10" rx="3" fill="url(#gP)"/><rect x="43" y="16" width="14" height="8" fill="url(#gM)"/><rect x="43" y="24" width="14" height="52" fill="url(#gY)"/><path d="M50 24v52" stroke="#b8860b" stroke-width="1.5"/><path d="M43 76h14l-7 18z" fill="#f0c89a"/><path d="M47 87h6l-3 7z" fill="#333"/></g>'
+};
+const P=Object.keys(IC).map(n=>[n,`<svg viewBox="0 0 100 100" role="img" aria-label="${n}">${IC[n]}</svg>`]);
+
+const COL=["#e63946","#f77f00","#2a9d8f","#3a86ff","#8338ec","#ff006e","#2b9348"];
+let deck=[],last=null,ci=0,busy=false;
+const $=id=>document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function refill(){deck=shuffle(P.slice());if(last&&deck[deck.length-1][0]===last&&deck.length>1){const n=deck.length-1;[deck[0],deck[n]]=[deck[n],deck[0]];}}
+function show(p,final){
+  const n=$("name"),i=$("pic");
+  n.textContent=p[0];i.innerHTML=p[1];
+  n.classList.remove("hint","pop");i.classList.remove("hint","pop");
+  if(final){void n.offsetWidth;n.classList.add("pop");i.classList.add("pop");}
+}
+function go(){
+  if(busy)return;busy=true;
+  if(!deck.length)refill();
+  const chosen=deck.pop();last=chosen[0];ci++;
+  const btn=$("btn");btn.disabled=true;btn.textContent="SCANNING";$("st").textContent="STATUS: SCANNING";
+  $("cards").classList.add("scanning");
+  const t=setInterval(()=>show(P[Math.floor(Math.random()*P.length)],false),90);
+  setTimeout(()=>{
+    clearInterval(t);
+    $("cards").classList.remove("scanning");
+    show(chosen,true);
+    btn.disabled=false;btn.textContent="RANDOM PRODUCT";$("st").textContent="STATUS: READY";busy=false;
+  },1100);
+}
+const L={en:{task:"Task:",cq:"CUSTOMER QUESTION",cust:"Customer:",up:"TIME'S UP!",first:"Press RANDOM PRODUCT first!"},uz:{task:"Vazifa:",cq:"MIJOZ SAVOLI",cust:"Mijoz:",up:"VAQT TUGADI!",first:"Avval RANDOM PRODUCT ni bosing!"}};
+const M=[
+["Press Agentry","Write a 2–3 sentence, super loud announcement.","2–3 gaplik eng shovqinli e'lon yozing."],
+["Public Information","What is it? How much does it cost? Where can you get it?<br>Facts only.","Nima u? Narxi qancha? Qayerdan olish mumkin?<br>Faqat faktlar."],
+["Two-Way Asymmetric","1) Think about what customers like.<br>2) Write an announcement that persuades them.","1) Mijozlar nimani yoqtirishini o'ylang.<br>2) Shunga qarab ishontiradigan e'lon yozing."],
+["Two-Way Symmetric","1) Press “CUSTOMER QUESTION” and read the feedback.<br>2) Based on it, change the product in 1 way (price, color, size, packaging).","1) «MIJOZ SAVOLI» ni bosing va fikrni o'qing.<br>2) Shu fikrga qarab mahsulotni 1 ta narsada o'zgartiring (narx, rang, hajm, qadoq)."]
+];
+const GQ=["Too expensive. I'd buy it if it were cheaper.|Narxi juda qimmat. Arzonroq bo'lsa olardim.","The color is boring. Do you have other colors?|Rangi zerikarli. Boshqa ranglari bormi?","Will it break quickly? I don't trust the quality.|Tez buzilib qolmasmikan? Sifatiga ishonchim yo'q.","It's too big and heavy. Is there a smaller version?|Juda katta va og'ir. Kichikroq variant bormi?","Is there a warranty? What if it breaks?|Kafolat bormi? Buzilsa nima bo'ladi?","Is it bad for the environment? I'd like it better made from recycled materials.|Atrof-muhitga zarar qilmaydimi? Qayta ishlangan materialdan bo'lsa yaxshi edi.","The design looks old-fashioned. Can you make it more modern?|Dizayni eskicha. Zamonaviyroq qilib bo'lmaydimi?","There's too much plastic in the packaging. Please reduce it.|Qadoqda ortiqcha plastik ko'p. Buni kamaytirsangiz bo'lardi.","Delivery is slow. Can it be faster?|Yetkazib berish sekin. Tezroq bo'lishi mumkinmi?","Is it safe for children? What is it made of?|Bolalar uchun xavfsizmi? Tarkibi qanday?"];
+let lang="en",mdeck=[],mlast=null,curM=null,curQ=null;const qdecks={},qprev={};
+const T=k=>L[lang][k];
+const taskHTML=()=>T("task")+"<br>"+curM[lang=="en"?1:2];
+const bubbleText=()=>"💬 "+T("cust")+" “"+curQ.split("|")[lang=="en"?0:1]+"”";
+function mgo(){
+  if(!mdeck.length){mdeck=shuffle(M.slice());if(mlast&&mdeck[mdeck.length-1][0]===mlast){[mdeck[0],mdeck[mdeck.length-1]]=[mdeck[mdeck.length-1],mdeck[0]];}}
+  curM=mdeck.pop();mlast=curM[0];curQ=null;
+  const e=$("mod");e.classList.remove("hint","pop");
+  e.innerHTML=`<div class="mname">${curM[0]}</div><div class="mtask" id="mtk">${taskHTML()}</div><div class="bubble" id="cq" style="display:none"></div><div class="mtime" id="mt">⏱ 2:00</div>`;
+  void e.offsetWidth;e.classList.add("pop");
+  $("cbtn").style.display=curM[0]=="Two-Way Symmetric"?"":"none";
+  count($("mt"),120,true);
+}
+let qdeck=[],qlast=null;
+function qgo(){
+  const c=$("cq");c.style.display="block";c.classList.remove("pop");
+  if(!qdeck.length){qdeck=shuffle(GQ.slice());if(qdeck[qdeck.length-1]===qlast){[qdeck[0],qdeck[qdeck.length-1]]=[qdeck[qdeck.length-1],qdeck[0]];}}
+  curQ=qdeck.pop();qlast=curQ;
+  c.textContent=bubbleText();void c.offsetWidth;c.classList.add("pop");
+}
+function setLang(l){
+  lang=l;$("lu").classList.toggle("on",l=="uz");$("le").classList.toggle("on",l=="en");
+  $("cbtn").textContent=T("cq");
+  if(curM&&$("mtk"))$("mtk").innerHTML=taskHTML();
+  const c=$("cq");if(c&&c.style.display=="block")c.textContent=curQ?bubbleText():T("first");
+}
+const timers=new Map();
+function fmt(n){return Math.floor(n/60)+":"+String(n%60).padStart(2,"0");}
+function count(el,secs,mm){
+  clearInterval(timers.get(el.id));let n=secs;const base=el.textContent;
+  const draw=()=>{el.textContent="⏱ "+(mm?fmt(n):n);};draw();
+  const t=setInterval(()=>{n--;if(n>0){draw();}else{clearInterval(t);el.textContent="⏰ "+T("up");if(!mm)setTimeout(()=>{el.textContent="⏱ "+secs},3000);}},1000);
+  timers.set(el.id,t);
+}
+$("lu").addEventListener("click",()=>setLang("uz"));
+$("le").addEventListener("click",()=>setLang("en"));
+$("mbtn").addEventListener("click",mgo);
+$("cbtn").addEventListener("click",qgo);
+$("btn").addEventListener("click",go);
+</script>
+</body>
+</html>
